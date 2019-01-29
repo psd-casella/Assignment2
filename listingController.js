@@ -1,14 +1,39 @@
-angular.module('listings').controller('ListingsController', ['$scope', 'Listings', 
-  function($scope, Listings) {
-    $scope.listings = Listings;
-    $scope.detailedInfo = undefined;
+angular.module('listings').controller('ListingsController', ['$scope', 'Listings',
+function($scope, Listings) {
+   $scope.listings = Listings;
+   $scope.detailedInfo = undefined;
+   $scope.show = false;
+   $scope.addForm = {};
 
-    /* 
-      Implement these functions in the controller to make your application function 
-      as described in the assignment spec. 
-     */
-    $scope.addListing = function() {};
-    $scope.deleteListing = function(index) {};
-    $scope.showDetails = function(index) {};
-  }
+   //Function to add new listing
+   $scope.addListing = function() {
+      $scope.listings.push($scope.addForm);
+      $scope.addForm = {}
+      $scope.show = !$scope.show;
+   };
+
+   //Function to delete listing
+   $scope.deleteListing = function(listing) {
+      let newListings = [];
+      newListings = $scope.listings.filter(function(choice) {
+         let deleteName = listing.name;
+         let deleteCode = listing.code;
+         if ( choice.name !== deleteName && choice.code !== deleteCode) {
+            return listing;
+         }
+      });
+      $scope.listings = newListings;
+      $scope.detailedInfo = undefined;
+   };
+
+   //Function to show details of selected listing
+   $scope.showDetails = function(listing) {
+      $scope.detailedInfo = listing;
+   };
+
+   //Function for add building button
+   $scope.onClick = function() {
+      $scope.show = !$scope.show;
+   };
+}
 ]);
